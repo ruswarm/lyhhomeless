@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lynchburg Homelessness Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        .question-block {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fcfcfc;
+        }
+        .question-block h3 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .choices label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+        .choices input[type="radio"] {
+            margin-right: 8px;
+        }
+        .feedback {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Hidden by default */
+        }
+        .feedback.correct {
+            background-color: #e6ffe6;
+            border-color: #4CAF50;
+            color: #4CAF50;
+        }
+        .feedback.incorrect {
+            background-color: #ffe6e6;
+            border-color: #f44336;
+            color: #f44336;
+        }
+        .explanation {
+            margin-top: 10px;
+            font-size: 0.95em;
+            color: #555;
+        }
+        .submit-btn, .restart-btn {
+            display: block;
+            width: fit-content;
+            margin: 25px auto 0;
+            padding: 12px 25px;
+            font-size: 17px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover, .restart-btn:hover {
+            background-color: #0056b3;
+        }
+        .restart-btn {
+            background-color: #28a745;
+            display: none; /* Hidden until quiz completion */
+        }
+        .restart-btn:hover {
+            background-color: #218838;
+        }
+        #results {
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: none;
+        }
+        .support-info {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            display: none; /* Hidden by default */
+        }
+        .support-info h2 {
+            color: #0056b3;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .support-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 5px solid #007bff;
+            border-radius: 4px;
+            display: none; /* Hidden by default */
+        }
+        .support-item h4 {
+            color: #333;
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lynchburg Homelessness Quiz: Test Your Knowledge</h1>
+        <p>Learn more about the causes, demographics, and local efforts related to homelessness in our community.</p>
+
+        <form id="homelessnessQuiz">
+            <div class="question-block">
+                <h3>1. Which of these is generally considered the **leading cause** of homelessness in Lynchburg, as it is in many parts of the U.S.?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q1" value="a"> A) Mental illness and substance abuse</label>
+                    <label><input type="radio" name="q1" value="b"> B) Lack of affordable housing</label>
+                    <label><input type="radio" name="q1" value="c"> C) Job loss or underemployment</label>
+                    <label><input type="radio" name="q1" value="d"> D) Family disputes</label>
+                </div>
+                <div class="feedback" id="feedback1"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>2. True or False: The majority of homeless individuals in Lynchburg are **chronically homeless** (meaning they've been homeless for a year or more, or have had multiple episodes of homelessness over several years).</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q2" value="a"> A) True</label>
+                    <label><input type="radio" name="q2" value="b"> B) False</label>
+                </div>
+                <div class="feedback" id="feedback2"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>3. Which age group is most disproportionately affected by homelessness in Lynchburg, compared to their percentage of the general population?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q3" value="a"> A) Children and youth (under 24)</label>
+                    <label><input type="radio" name="q3" value="b"> B) Adults aged 25-54</label>
+                    <label><input type="radio" name="q3" value="c"> C) Seniors (65 and older)</label>
+                </div>
+                <div class="feedback" id="feedback3"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>4. Many local organizations in Lynchburg participate in an annual **Point-in-Time (PIT) Count**. What is the primary purpose of this count?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q4" value="a"> A) To count only those residing in emergency shelters.</label>
+                    <label><input type="radio" name="q4" value="b"> B) To identify eligible candidates for housing assistance programs.</label>
+                    <label><input type="radio" name="q4" value="c"> C) To provide a statistical snapshot of the homeless population for a specific night.</label>
+                    <label><input type="radio" name="q4" value="d"> D) To determine funding needs for various social services throughout the year.</label>
+                </div>
+                <div class="feedback" id="feedback4"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>5. True or False: Homelessness is primarily an urban problem, with very few individuals experiencing it in Lynchburg's surrounding rural areas.</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q5" value="a"> A) True</label>
+                    <label><input type="radio" name="q5" value="b"> B) False</label>
+                </div>
+                <div class="feedback" id="feedback5"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>6. What does **"Housing First"** mean in the context of addressing homelessness, a strategy adopted by many Lynchburg organizations?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q6" value="a"> A) That shelters must be the first response to homelessness.</label>
+                    <label><input type="radio" name="q6" value="b"> B) Prioritizing stable housing first, without requiring individuals to address other issues beforehand.</label>
+                    <label><input type="radio" name="q6" value="c"> C) To provide services like job training only after housing is secured.</label>
+                    <label><input type="radio" name="q6" value="d"> D) Building new housing exclusively for individuals experiencing homelessness.</label>
+                </div>
+                <div class="feedback" id="feedback6"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>7. Beyond shelter, what is one of the most critical needs for individuals and families experiencing homelessness in Lynchburg?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q7" value="a"> A) Access to free public transportation</label>
+                    <label><input type="radio" name="q7" value="b"> B) Employment support and job training</label>
+                    <label><input type="radio" name="q7" value="c"> C) High-speed internet access</label>
+                    <label><input type="radio" name="q7" value="d"> D) Access to higher education opportunities.</label>
+                </div>
+                <div class="feedback" id="feedback7"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>8. What is a common challenge for homeless individuals in Lynchburg trying to secure employment?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q8" value="a"> A) A general preference for informal work.</label>
+                    <label><input type="radio" name="q8" value="b"> B) Lack of access to hygiene facilities and suitable clothing.</label>
+                    <label><input type="radio" name="q8" value="c"> C) Limited availability of entry-level positions.</label>
+                    <label><input type="radio" name="q8" value="d"> D) Overly complex application processes for local jobs.</label>
+                </div>
+                <div class="feedback" id="feedback8"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>9. True or False: Many individuals experiencing homelessness in Lynchburg have full-time jobs but still cannot afford stable housing.</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q9" value="a"> A) True</label>
+                    <label><input type="radio" name="q9" value="b"> B) False</label>
+                </div>
+                <div class="feedback" id="feedback9"></div>
+            </div>
+
+            <div class="question-block">
+                <h3>10. Which of the following is a key component of effective strategies to reduce homelessness in Lynchburg?</h3>
+                <div class="choices">
+                    <label><input type="radio" name="q10" value="a"> A) Increasing the number of general public assistance programs.</label>
+                    <label><input type="radio" name="q10" value="b"> B) Focusing primarily on individual behavioral changes.</label>
+                    <label><input type="radio" name="q10" value="c"> C) Strong partnerships among local agencies, government, and community groups.</label>
+                    <label><input type="radio" name="q10" value="d"> D) Centralizing all services within a single large government agency.</label>
+                </div>
+                <div class="feedback" id="feedback10"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Quiz</button>
+            <button type="button" class="restart-btn" onclick="restartQuiz()">Restart Quiz</button>
+        </form>
+
+        <div id="results"></div>
+
+        <div class="support-info" id="supportInfo">
+            <h2>Further Information on Homelessness in Lynchburg</h2>
+            <p>Here's some additional context and details related to the **incorrect answers**.</p>
+
+            <div class="support-item" id="info-q1">
+                <h4>Causes of Homelessness</h4>
+                <p>While mental illness, substance abuse, job loss, and family issues are significant contributing factors, the **overarching leading cause of homelessness in Lynchburg, and nationwide, is the lack of affordable housing**. When housing costs outpace wages, even working individuals or families can find themselves unable to secure stable housing.</p>
+            </div>
+
+            <div class="support-item" id="info-q2">
+                <h4>Types of Homelessness</h4>
+                <p>It's a common misconception that most homeless individuals are chronically homeless. In reality, a significant portion of people experiencing homelessness are in a **transitional state**, often due to a sudden crisis (like job loss, eviction, or a medical emergency). Many will exit homelessness relatively quickly with the right support. While chronic homelessness is a critical issue that requires specialized support, it often represents a smaller percentage of the overall homeless population at any given time.</p>
+            </div>
+
+            <div class="support-item" id="info-q3">
+                <h4>Demographics of Homelessness</h4>
+                <p>Sadly, **children and youth** are disproportionately affected by homelessness. Families with children are a significant segment of the homeless population, and unaccompanied youth also face immense challenges. Homelessness can severely disrupt education, health, and overall development for this vulnerable group.</p>
+            </div>
+
+            <div class="support-item" id="info-q4">
+                <h4>Point-in-Time (PIT) Count</h4>
+                <p>The **Point-in-Time (PIT) Count** is a mandated, nationwide effort by the U.S. Department of Housing and Urban Development (HUD). It's a critical tool for understanding the scope of homelessness and identifying trends. While it doesn't capture every person experiencing homelessness, it provides a vital snapshot that helps communities like Lynchburg apply for federal funding and plan services more effectively.</p>
+            </div>
+
+            <div class="support-item" id="info-q5">
+                <h4>Rural Homelessness</h4>
+                <p>Homelessness is **not exclusively an urban problem**. Rural areas, including those surrounding Lynchburg, also experience significant rates of homelessness. However, it can be less visible in rural settings due to factors like less public transportation, dispersed populations, and individuals "doubling up" with others, making it harder to count and address.</p>
+            </div>
+
+            <div class="support-item" id="info-q6">
+                <h4>Housing First Approach</h4>
+                <p>**"Housing First"** is a highly effective, evidence-based approach that prioritizes providing immediate access to stable, independent housing to people experiencing homelessness. The idea is that housing is a basic human right and a stable foundation from which individuals can then address other challenges (like substance abuse or mental health issues) with supportive services. It avoids preconditions often seen in traditional models, which required sobriety or treatment before housing.</p>
+            </div>
+
+            <div class="support-item" id="info-q7">
+                <h4>Critical Needs Beyond Shelter</h4>
+                <p>While shelter is crucial, sustainable exits from homelessness often require addressing underlying issues. **Employment support and job training** are incredibly important, as economic stability is key to maintaining housing. Other critical needs include healthcare (physical and mental), education, and legal assistance.</p>
+            </div>
+
+            <div class="support-item" id="info-q8">
+                <h4>Employment Challenges</h4>
+                <p>Homeless individuals often face immense barriers to employment. **Lack of access to hygiene facilities and suitable clothing** is a significant challenge. Other barriers include lack of a stable address, phone, or transportation, and the stigma associated with homelessness.</p>
+            </div>
+
+            <div class="support-item" id="info-q9">
+                <h4>Working Homeless</h4>
+                <p>Unfortunately, it is **true** that many individuals experiencing homelessness, even in Lynchburg, are employed, sometimes even full-time, but still cannot afford market-rate housing. This highlights the severe shortage of affordable housing and the struggle of low-wage workers to make ends meet in today's economy.</p>
+            </div>
+
+            <div class="support-item" id="info-q10">
+                <h4>Effective Strategies</h4>
+                <p>Reducing homelessness requires a multi-faceted approach. **Strong partnerships among local agencies, government, and community groups** are essential. This includes coordinated entry systems, diverse housing solutions (emergency, transitional, permanent supportive), and robust support services, all tailored to local needs and resources.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'b',
+            q2: 'b',
+            q3: 'a',
+            q4: 'c',
+            q5: 'b',
+            q6: 'b',
+            q7: 'b',
+            q8: 'b',
+            q9: 'a',
+            q10: 'c'
+        };
+
+        const quizForm = document.getElementById('homelessnessQuiz');
+        const resultsDiv = document.getElementById('results');
+        const supportInfoDiv = document.getElementById('supportInfo');
+        const restartButton = document.querySelector('.restart-btn');
+        const submitButton = document.querySelector('.submit-btn');
+
+        quizForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // Crucial: Prevent default form submission (page reload)
+
+            let score = 0;
+            const incorrectQuestions = [];
+
+            // Hide all support info items and the main support info container before evaluating
+            document.querySelectorAll('.support-item').forEach(item => {
+                item.style.display = 'none';
+            });
+            supportInfoDiv.style.display = 'none';
+
+            for (let i = 1; i <= 10; i++) {
+                const questionName = 'q' + i;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                const feedbackDiv = document.getElementById(`feedback${i}`);
+
+                feedbackDiv.style.display = 'block'; // Make feedback visible for this question
+
+                if (selectedOption) {
+                    if (selectedOption.value === correctAnswers[questionName]) {
+                        feedbackDiv.className = 'feedback correct';
+                        feedbackDiv.innerHTML = '<strong>Correct!</strong>';
+                        score++; // Increment score only if correct
+                    } else {
+                        feedbackDiv.className = 'feedback incorrect';
+                        feedbackDiv.innerHTML = `<strong>Incorrect.</strong> The correct answer was: ${correctAnswers[questionName].toUpperCase()}.`;
+                        incorrectQuestions.push(i);
+                    }
+                } else {
+                    // No answer selected
+                    feedbackDiv.className = 'feedback incorrect';
+                    feedbackDiv.innerHTML = `<strong>No answer selected.</strong> The correct answer was: ${correctAnswers[questionName].toUpperCase()}.`;
+                    incorrectQuestions.push(i);
+                }
+                // Disable all radio buttons for the current question after processing
+                document.querySelectorAll(`input[name="${questionName}"]`).forEach(radio => {
+                    radio.disabled = true;
+                });
+            }
+
+            resultsDiv.innerHTML = `You scored ${score} out of 10!`;
+            resultsDiv.style.display = 'block';
+            restartButton.style.display = 'block';
+            submitButton.style.display = 'none'; // Hide the submit button
+
+            // Display support info for incorrect answers
+            if (incorrectQuestions.length > 0) {
+                supportInfoDiv.style.display = 'block'; // Show the main support info container
+                incorrectQuestions.forEach(qNum => {
+                    document.getElementById(`info-q${qNum}`).style.display = 'block'; // Show specific support items
+                });
+            }
+            
+            // Scroll to the results for immediate feedback
+            resultsDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        function restartQuiz() {
+            quizForm.reset(); // Clear all selections
+            resultsDiv.style.display = 'none';
+            supportInfoDiv.style.display = 'none';
+            restartButton.style.display = 'none';
+            submitButton.style.display = 'block'; // Show submit button again
+
+            // Hide all feedback divs and re-enable radio buttons
+            for (let i = 1; i <= 10; i++) {
+                document.getElementById(`feedback${i}`).style.display = 'none';
+                document.querySelectorAll(`input[name="q${i}"]`).forEach(radio => radio.disabled = false);
+            }
+            // Hide all support info items (redundant but safe)
+            document.querySelectorAll('.support-item').forEach(item => {
+                item.style.display = 'none';
+            });
+        }
+    </script>
+</body>
+</html>
